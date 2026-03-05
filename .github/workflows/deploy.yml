@@ -1,0 +1,22 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Trigger webhook
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: ${{ secrets.DEPLOY_WEBHOOK_URL }}
+          method: 'POST'
+          data: '{"ref": "refs/heads/main"}'
+          customHeaders: '{"X-GitHub-Event": "push", "X-Hub-Signature-256": "${{ secrets.WEBHOOK_SIGNATURE }}"}'

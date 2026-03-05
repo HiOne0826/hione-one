@@ -1,5 +1,5 @@
 # build output
-dist/
+# dist/  # 允许提交 dist 目录，用于自动部署
 
 # generated types
 .astro/
