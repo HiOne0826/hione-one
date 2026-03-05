@@ -1,11 +1,77 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import HeroSection from '../components/hero/HeroSection.astro';
+import ProjectCard from '../components/projects/ProjectCard.astro';
+import Tag from '../components/ui/Tag.astro';
+import UsesSection from '../components/uses/UsesSection.astro';
+import ServicesSection from '../components/services/ServicesSection.astro';
+import ContentSection from '../components/content/ContentSection.astro';
+import ContactSection from '../components/contact/ContactSection.astro';
+import '../styles/global.css';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const projects = await getCollection('projects');
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eric Gao - hione.one</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .font-mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 text-gray-900">
+    <HeroSection />
+
+    <!-- Projects Section -->
+    <section id="projects" class="px-6 py-20 bg-white">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="font-mono text-3xl font-bold mb-2">我的项目</h2>
+        <div class="flex gap-4 mb-10">
+          <Tag active>进行中</Tag>
+          <Tag>已完成</Tag>
+        </div>
+
+        <div class="space-y-8">
+          {projects.map((project) => (
+            <ProjectCard
+              title={project.data.title}
+              description={project.data.description}
+              status={project.data.status}
+              techStack={project.data.techStack}
+              image={project.data.image}
+              href={`/project/${project.id}`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <ServicesSection />
+
+    <!-- Uses Section -->
+    <UsesSection />
+
+    <!-- Content Section -->
+    <ContentSection />
+
+    <!-- Contact Section -->
+    <ContactSection />
+
+    <!-- Footer -->
+    <footer class="px-6 py-10 bg-gray-900 text-white text-center">
+      <p class="font-mono">hione.one © 2026</p>
+      <p class="text-gray-400 text-sm mt-2">Made with vibe coding 🦞</p>
+    </footer>
+  </body>
+</html>

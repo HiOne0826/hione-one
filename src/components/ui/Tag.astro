@@ -1,0 +1,11 @@
+---
+interface Props {
+  active?: boolean;
+}
+
+const { active = false } = Astro.props;
+---
+
+<span class={`px-3 py-1 font-mono text-sm border-[2px] border-gray-900 ${active ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-900'}`}>
+  <slot />
+</span>

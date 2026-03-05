@@ -1,0 +1,49 @@
+---
+import BrutalCard from '../ui/BrutalCard.astro';
+---
+
+<section class="px-6 py-20 bg-white">
+  <div class="max-w-3xl mx-auto">
+    <h2 class="font-mono text-3xl font-bold mb-8">我的工具</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- AI Tools -->
+      <BrutalCard>
+        <h3 class="font-mono text-lg font-bold mb-4">🤖 AI 工具</h3>
+        <ul class="space-y-2 text-gray-600 font-mono text-sm">
+          <li>OpenClaw</li>
+          <li>火山引擎豆包</li>
+          <li>Cursor</li>
+        </ul>
+      </BrutalCard>
+
+      <!-- Dev Tools -->
+      <BrutalCard>
+        <h3 class="font-mono text-lg font-bold mb-4">💻 开发工具</h3>
+        <ul class="space-y-2 text-gray-600 font-mono text-sm">
+          <li>VS Code</li>
+          <li>GitHub</li>
+          <li>Tailwind CSS</li>
+        </ul>
+      </BrutalCard>
+
+      <!-- Hardware -->
+      <BrutalCard>
+        <h3 class="font-mono text-lg font-bold mb-4">🖥️ 硬件</h3>
+        <ul class="space-y-2 text-gray-600 font-mono text-sm">
+          <li>Mac Mini</li>
+          <li>HHKB 键盘</li>
+        </ul>
+      </BrutalCard>
+
+      <!-- Workflow -->
+      <BrutalCard>
+        <h3 class="font-mono text-lg font-bold mb-4">⚡ Workflow</h3>
+        <ul class="space-y-2 text-gray-600 font-mono text-sm">
+          <li>vibe coding 为主</li>
+          <li>快速迭代，先上线再优化</li>
+        </ul>
+      </BrutalCard>
+    </div>
+  </div>
+</section>

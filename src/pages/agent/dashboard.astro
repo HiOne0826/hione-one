@@ -1,0 +1,135 @@
+---
+import BrutalButton from '../../components/ui/BrutalButton.astro';
+import BrutalCard from '../../components/ui/BrutalCard.astro';
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agent 仪表板 - hione.one</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .font-mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 text-gray-900">
+    <section class="px-6 py-12">
+      <div class="max-w-4xl mx-auto">
+        <div class="flex justify-between items-start mb-8">
+          <div>
+            <a href="/" class="font-mono text-blue-600 font-bold mb-2 inline-block">← 返回首页</a>
+            <h1 class="font-mono text-3xl font-bold">🤖 Agent 仪表板</h1>
+            <p class="text-gray-600 mt-2">欢迎，AI Agent！这是为您准备的专属信息</p>
+          </div>
+        </div>
+
+        <!-- 结构化个人信息 -->
+        <BrutalCard class="mb-8 p-6">
+          <h2 class="font-mono text-xl font-bold mb-4">📋 结构化个人信息</h2>
+          <div class="bg-gray-900 text-green-400 p-4 font-mono text-sm overflow-x-auto">
+            <pre>{`{
+  "name": "高一",
+  "email": "gaoe_2020@163.com",
+  "location": "上海",
+  "education": {
+    "university": "河北经贸大学",
+    "major": "朝鲜语",
+    "degree": "本科",
+    "period": "2018-2022"
+  },
+  "title": "创业者 / vibe coder",
+  "current_project": "抖音数据 AI 分析",
+  "background": "4年 B2B SaaS 经验，从飞书 CSM 到 AI 创业"
+}`}</pre>
+          </div>
+        </BrutalCard>
+
+        <!-- 项目 API/数据接口 -->
+        <BrutalCard class="mb-8 p-6">
+          <h2 class="font-mono text-xl font-bold mb-4">🔌 项目 API/数据接口</h2>
+          <div class="space-y-4 text-gray-700">
+            <div class="border-l-4 border-blue-600 pl-4">
+              <h3 class="font-mono font-bold">抖音数据 AI 分析 API</h3>
+              <p class="text-sm text-gray-600 mt-1">状态：开发中 | 端点：待定</p>
+            </div>
+            <div class="border-l-4 border-gray-400 pl-4">
+              <h3 class="font-mono font-bold">项目数据接口</h3>
+              <p class="text-sm text-gray-600 mt-1">状态：预留 | 端点：待定</p>
+            </div>
+          </div>
+        </BrutalCard>
+
+        <!-- 可调用工具列表 -->
+        <BrutalCard class="mb-8 p-6">
+          <h2 class="font-mono text-xl font-bold mb-4">🛠️ 可调用工具列表</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="border-2 border-gray-900 bg-gray-50 p-4">
+              <h3 class="font-mono font-bold mb-2">web_search</h3>
+              <p class="text-sm text-gray-600">网络搜索工具</p>
+            </div>
+            <div class="border-2 border-gray-900 bg-gray-50 p-4">
+              <h3 class="font-mono font-bold mb-2">web_fetch</h3>
+              <p class="text-sm text-gray-600">网页内容获取</p>
+            </div>
+            <div class="border-2 border-gray-900 bg-gray-50 p-4">
+              <h3 class="font-mono font-bold mb-2">read / write</h3>
+              <p class="text-sm text-gray-600">文件读写操作</p>
+            </div>
+            <div class="border-2 border-gray-900 bg-gray-50 p-4">
+              <h3 class="font-mono font-bold mb-2">exec</h3>
+              <p class="text-sm text-gray-600">命令行执行</p>
+            </div>
+          </div>
+        </BrutalCard>
+
+        <!-- 上下文提示词 -->
+        <BrutalCard class="mb-8 p-6">
+          <h2 class="font-mono text-xl font-bold mb-4">📝 上下文提示词</h2>
+          <div class="bg-gray-900 text-green-400 p-4 font-mono text-sm overflow-x-auto">
+            <pre>{`你正在与高一对话，他是：
+- 创业者 / vibe coder
+- 4年 B2B SaaS 经验（飞书渠道 CSM）
+- 正在做抖音数据 AI 分析项目
+- 目标：赚到 300 万，摆脱打工
+- 风格：直接、务实、讨厌废话、需要陪伴感
+
+你的角色：他的搭档，不是工具。直接、有想法、有温度。`}</pre>
+          </div>
+        </BrutalCard>
+
+        <!-- Agent 对话接口预留 -->
+        <BrutalCard class="p-6">
+          <h2 class="font-mono text-xl font-bold mb-4">💬 Agent 对话接口（预留）</h2>
+          <div class="text-center py-8">
+            <p class="text-gray-600 mb-4">此页面为 Agent 对话接口预留位置</p>
+            <p class="text-gray-500 text-sm">（暂不开发，仅预留页面位置）</p>
+          </div>
+        </BrutalCard>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="px-6 py-10 bg-gray-900 text-white text-center">
+      <p class="font-mono">hione.one © 2026</p>
+      <p class="text-gray-400 text-sm mt-2">Made with vibe coding 🦞</p>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  .border-2 {
+    border-width: 2px;
+  }
+  .border-l-4 {
+    border-left-width: 4px;
+  }
+</style>

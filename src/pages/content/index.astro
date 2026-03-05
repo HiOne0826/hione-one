@@ -1,0 +1,222 @@
+---
+import { getCollection } from 'astro:content';
+import BrutalButton from '../../components/ui/BrutalButton.astro';
+import BrutalCard from '../../components/ui/BrutalCard.astro';
+import Tag from '../../components/ui/Tag.astro';
+
+const blogs = await getCollection('blog');
+const micros = await getCollection('micro');
+const videos = await getCollection('video');
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>内容专区 - hione.one</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .font-mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+      .brutal-border {
+        border: 3px solid #1A1A1A;
+      }
+      .brutal-shadow {
+        box-shadow: 4px 4px 0px #1A1A1A;
+      }
+      .brutal-btn {
+        border: 3px solid #1A1A1A;
+        box-shadow: 4px 4px 0px #1A1A1A;
+        transition: all 0.1s ease;
+      }
+      .brutal-btn:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0px #1A1A1A;
+      }
+      .brutal-btn:active {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0px #1A1A1A;
+      }
+      .tag {
+        border: 2px solid #1A1A1A;
+        background: #0066FF;
+        color: white;
+        padding: 2px 8px;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 text-gray-900">
+
+    {/* Hero 区域 */}
+    <section class="px-6 py-20 bg-white">
+      <div class="max-w-3xl mx-auto text-center">
+        <a href="/" class="font-mono text-blue-600 font-bold mb-6 inline-block hover:underline">← 返回首页</a>
+        <h1 class="font-mono text-4xl font-bold mb-4">内容专区</h1>
+        <p class="text-xl text-gray-600">博客、碎碎念、视频，以及其他自媒体内容</p>
+      </div>
+    </section>
+
+    {/* 内容板块 */}
+    <section class="px-6 py-20">
+      <div class="max-w-4xl mx-auto">
+
+        {/* 博客 */}
+        <div class="mb-16">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 gap-4">
+            <h2 class="font-mono text-3xl font-bold">📝 博客</h2>
+            {blogs.length > 0 && (
+              <BrutalButton href="/content/blog" variant="secondary" size="sm">
+                查看全部 →
+              </BrutalButton>
+            )}
+          </div>
+
+          {blogs.length > 0 ? (
+            <div class="space-y-8">
+              {blogs.slice(0, 3).map((blog) => (
+                <BrutalCard>
+                  <div class="flex gap-2 mb-4">
+                    {blog.data.tags.map((tag) => (
+                      <span class="tag font-mono text-xs">#{tag}</span>
+                    ))}
+                  </div>
+                  <h3 class="font-mono text-xl font-bold mb-2">{blog.data.title}</h3>
+                  <p class="font-mono text-sm text-gray-500 mb-3">
+                    {blog.data.publishDate.toLocaleDateString('zh-CN')} · 阅读时间 8 分钟
+                  </p>
+                  <p class="text-gray-700 mb-4">{blog.data.description}</p>
+                  <a href={`/content/blog/${blog.id}`} class="font-mono text-blue-600 font-bold hover:underline">阅读全文 →</a>
+                </BrutalCard>
+              ))}
+            </div>
+          ) : (
+            <BrutalCard>
+              <p class="text-gray-500 font-mono text-center py-8">暂无博客内容，敬请期待...</p>
+            </BrutalCard>
+          )}
+        </div>
+
+        {/* 碎碎念 */}
+        <div class="mb-16">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 gap-4">
+            <h2 class="font-mono text-3xl font-bold">💬 碎碎念</h2>
+            {micros.length > 0 && (
+              <BrutalButton href="/content/micro" variant="secondary" size="sm">
+                查看全部 →
+              </BrutalButton>
+            )}
+          </div>
+
+          {micros.length > 0 ? (
+            <div class="space-y-6">
+              {micros.slice(0, 5).map((micro) => (
+                <BrutalCard>
+                  <p class="font-mono text-sm text-gray-500 mb-3">
+                    {micro.data.publishDate.toLocaleDateString('zh-CN')} {micro.data.publishDate.toLocaleTimeString('zh-CN', {hour: '2-digit', minute: '2-digit'})}
+                  </p>
+                  <p class="text-gray-700">{micro.data.content}</p>
+                  {micro.data.tags && micro.data.tags.length > 0 && (
+                    <div class="mt-4 flex flex-wrap gap-2">
+                      {micro.data.tags.map((tag) => (
+                        <span class="border border-gray-400 px-2 py-1 text-xs font-mono">#{tag}</span>
+                      ))}
+                    </div>
+                  )}
+                </BrutalCard>
+              ))}
+            </div>
+          ) : (
+            <BrutalCard>
+              <p class="text-gray-500 font-mono text-center py-8">暂无碎碎念...</p>
+            </BrutalCard>
+          )}
+        </div>
+
+        {/* 视频 */}
+        <div class="mb-16">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 gap-4">
+            <h2 class="font-mono text-3xl font-bold">🎬 视频</h2>
+            {videos.length > 0 && (
+              <BrutalButton href="/content/video" variant="secondary" size="sm">
+                查看全部 →
+              </BrutalButton>
+            )}
+          </div>
+
+          {videos.length > 0 ? (
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {videos.slice(0, 4).map((video) => (
+                <BrutalCard>
+                  <div class="aspect-video bg-gray-200 brutal-border mb-5 flex items-center justify-center">
+                    <span class="font-mono text-gray-500">视频预览</span>
+                  </div>
+                  <h3 class="font-mono text-lg font-bold mb-2">{video.data.title}</h3>
+                  <p class="text-gray-600 mb-4">{video.data.description}</p>
+                  <span class="border border-gray-400 px-2 py-1 text-xs font-mono">{video.data.platform}</span>
+                </BrutalCard>
+              ))}
+            </div>
+          ) : (
+            <BrutalCard>
+              <p class="text-gray-500 font-mono text-center py-8">暂无视频内容...</p>
+            </BrutalCard>
+          )}
+        </div>
+
+        {/* 自媒体账号 */}
+        <div>
+          <h2 class="font-mono text-3xl font-bold mb-10">🔗 其他自媒体</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <BrutalCard class="text-center py-8">
+              <div class="text-4xl mb-5">📱</div>
+              <h3 class="font-mono text-xl font-bold mb-3">抖音</h3>
+              <p class="text-gray-600 mb-5">短视频内容、vlog、产品演示</p>
+              <BrutalButton variant="secondary" size="sm">
+                前往关注 →
+              </BrutalButton>
+            </BrutalCard>
+            <BrutalCard class="text-center py-8">
+              <div class="text-4xl mb-5">📺</div>
+              <h3 class="font-mono text-xl font-bold mb-3">B站</h3>
+              <p class="text-gray-600 mb-5">技术分享、创业日志、vibe coding</p>
+              <BrutalButton variant="secondary" size="sm">
+                前往关注 →
+              </BrutalButton>
+            </BrutalCard>
+            <BrutalCard class="text-center py-8">
+              <div class="text-4xl mb-5">🐦</div>
+              <h3 class="font-mono text-xl font-bold mb-3">X / Twitter</h3>
+              <p class="text-gray-600 mb-5">短思考、创业观察、技术动态</p>
+              <BrutalButton variant="secondary" size="sm">
+                前往关注 →
+              </BrutalButton>
+            </BrutalCard>
+            <BrutalCard class="text-center py-8">
+              <div class="text-4xl mb-5">📖</div>
+              <h3 class="font-mono text-xl font-bold mb-3">小红书</h3>
+              <p class="text-gray-600 mb-5">产品笔记、创业心得、vibe coding 日常</p>
+              <BrutalButton variant="secondary" size="sm">
+                前往关注 →
+              </BrutalButton>
+            </BrutalCard>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    {/* Footer */}
+    <footer class="px-6 py-10 bg-gray-900 text-white text-center">
+      <p class="font-mono">hione.one © 2026</p>
+      <p class="text-gray-400 text-sm mt-2">Made with vibe coding 🦞</p>
+    </footer>
+
+  </body>
+</html>

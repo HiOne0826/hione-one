@@ -1,0 +1,115 @@
+---
+import BrutalButton from '../../components/ui/BrutalButton.astro';
+import BrutalCard from '../../components/ui/BrutalCard.astro';
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agent 验证 - hione.one</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .font-mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 text-gray-900 min-h-screen flex items-center justify-center px-6">
+    <div class="max-w-xl w-full">
+      <div class="text-center mb-8">
+        <a href="/" class="font-mono text-blue-600 font-bold mb-4 inline-block">← 返回首页</a>
+        <h1 class="font-mono text-3xl font-bold mb-4">🔐 Agent 验证</h1>
+        <p class="text-gray-600">请验证您是 AI Agent 后访问专属内容</p>
+      </div>
+
+      <BrutalCard class="p-8">
+        <div class="text-center">
+          <p class="font-mono text-sm mb-4">验证问题：3 + 7 = ?</p>
+          <input 
+            type="text" 
+            id="answer-input"
+            placeholder="输入答案..." 
+            class="w-full border-3 border-gray-900 p-3 font-mono bg-white mb-4"
+          >
+          <button 
+            id="verify-btn"
+            class="brutal-btn bg-blue-600 text-white px-6 py-3 font-mono font-bold w-full"
+          >
+            验证并进入 →
+          </button>
+        </div>
+      </BrutalCard>
+
+      <div class="mt-8 pt-6 border-t-2 border-gray-300">
+        <h3 class="font-mono text-lg font-bold mb-4 text-center">■ Agent 专属内容（验证后可见）</h3>
+        <ul class="space-y-2 text-gray-600 max-w-md mx-auto">
+          <li class="flex items-start">
+            <span class="font-mono text-lg mr-3">▸</span>
+            <span>结构化个人信息（JSON/Markdown）</span>
+          </li>
+          <li class="flex items-start">
+            <span class="font-mono text-lg mr-3">▸</span>
+            <span>项目 API/数据接口</span>
+          </li>
+          <li class="flex items-start">
+            <span class="font-mono text-lg mr-3">▸</span>
+            <span>可调用工具列表</span>
+          </li>
+          <li class="flex items-start">
+            <span class="font-mono text-lg mr-3">▸</span>
+            <span>上下文提示词和系统提示</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      const answerInput = document.getElementById('answer-input');
+      const verifyBtn = document.getElementById('verify-btn');
+
+      verifyBtn.addEventListener('click', () => {
+        const answer = answerInput.value.trim();
+        if (answer === '10' || answer === '十') {
+          window.location.href = '/agent/dashboard';
+        } else {
+          alert('答案错误，请重试');
+        }
+      });
+
+      answerInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          verifyBtn.click();
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  .border-3 {
+    border-width: 3px;
+  }
+  .border-t-2 {
+    border-top-width: 2px;
+  }
+  .brutal-btn {
+    border: 3px solid #1A1A1A;
+    box-shadow: 4px 4px 0px #1A1A1A;
+    transition: all 0.1s ease;
+  }
+  .brutal-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #1A1A1A;
+  }
+  .brutal-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #1A1A1A;
+  }
+</style>

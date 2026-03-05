@@ -1,0 +1,82 @@
+---
+import { getCollection } from 'astro:content';
+import BrutalCard from '../../../components/ui/BrutalCard.astro';
+
+export async function getStaticPaths() {
+  const micros = await getCollection('micro');
+  return micros.map((micro) => ({
+    params: { slug: micro.id },
+  }));
+}
+
+const { slug } = Astro.params;
+const micros = await getCollection('micro');
+const micro = micros.find((m) => m.id === slug);
+
+if (!micro) {
+  return Astro.redirect('/content');
+}
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>碎碎念 - hione.one</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .font-mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+      .brutal-border {
+        border: 3px solid #1A1A1A;
+      }
+      .brutal-shadow {
+        box-shadow: 4px 4px 0px #1A1A1A;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 text-gray-900">
+
+    {/* Hero 区域 */}
+    <section class="px-6 py-20 bg-white">
+      <div class="max-w-3xl mx-auto">
+        <a href="/content" class="font-mono text-blue-600 font-bold mb-6 inline-block hover:underline">← 返回内容专区</a>
+        <p class="font-mono text-sm text-gray-500 mb-6">
+          {micro.data.publishDate.toLocaleDateString('zh-CN')} {micro.data.publishDate.toLocaleTimeString('zh-CN', {hour: '2-digit', minute: '2-digit'})}
+        </p>
+      </div>
+    </section>
+
+    {/* 碎碎念内容 */}
+    <section class="px-6 py-16">
+      <div class="max-w-3xl mx-auto">
+        <BrutalCard class="p-8">
+          <p class="text-gray-700 leading-relaxed text-lg mb-6">
+            {micro.data.content}
+          </p>
+          {micro.data.tags && micro.data.tags.length > 0 && (
+            <div class="flex flex-wrap gap-2">
+              {micro.data.tags.map((tag) => (
+                <span class="border border-gray-400 px-2 py-1 text-xs font-mono">#{tag}</span>
+              ))}
+            </div>
+          )}
+        </BrutalCard>
+      </div>
+    </section>
+
+    {/* Footer */}
+    <footer class="px-6 py-10 bg-gray-900 text-white text-center">
+      <p class="font-mono">hione.one © 2026</p>
+      <p class="text-gray-400 text-sm mt-2">Made with vibe coding 🦞</p>
+    </footer>
+
+  </body>
+</html>
