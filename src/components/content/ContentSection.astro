@@ -4,111 +4,48 @@ import Tag from '../ui/Tag.astro';
 import BrutalButton from '../ui/BrutalButton.astro';
 
 const blogs = await getCollection('blog');
-const micros = await getCollection('micro');
-const videos = await getCollection('video');
 ---
 
 <section class="px-6 py-20 bg-gray-100">
   <div class="max-w-3xl mx-auto">
-    <h2 class="font-mono text-3xl font-bold mb-8">内容</h2>
-
-    <!-- 标签页 -->
-    <div class="flex gap-4 mb-10">
-      <Tag active>博客</Tag>
-      <Tag>碎碎念</Tag>
-      <Tag>视频</Tag>
-    </div>
-
-    <!-- 博客内容 -->
-    <div class="mb-10">
-      {blogs.length > 0 ? (
-        <div class="space-y-8">
-          {blogs.slice(0, 2).map((blog) => (
-            <div class="pb-8 border-b-2 border-gray-300">
-              <div class="flex gap-2 mb-3">
-                {blog.data.tags.map((tag) => (
-                  <span class="border-2 border-gray-900 bg-blue-600 text-white px-3 py-1 font-mono text-xs">#{tag}</span>
-                ))}
-              </div>
-              <h3 class="font-mono text-xl font-bold mb-2">{blog.data.title}</h3>
-              <p class="font-mono text-sm text-gray-500 mb-3">
-                {blog.data.publishDate.toLocaleDateString('zh-CN')} · 阅读时间 8 分钟
-              </p>
-              <p class="text-gray-700 mb-4">{blog.data.description}</p>
-              <a href={`/content/blog/${blog.id}`} class="font-mono text-blue-600 font-bold">阅读全文 →</a>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p class="text-gray-500 font-mono">暂无博客内容，敬请期待...</p>
-      )}
-
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+      <h2 class="font-mono text-3xl font-bold">内容</h2>
       {blogs.length > 0 && (
-        <div class="mt-6">
-          <BrutalButton href="/content/blog" variant="secondary" size="md">
-            查看全部博客 →
-          </BrutalButton>
-        </div>
+        <BrutalButton href="/content" variant="secondary" size="md">
+          查看全部 →
+        </BrutalButton>
       )}
     </div>
 
-    <!-- 碎碎念内容 -->
-    <div class="mb-10">
-      {micros.length > 0 ? (
-        <div class="space-y-6">
-          {micros.slice(0, 5).map((micro) => (
-            <div class="pb-6 border-b-2 border-gray-300">
-              <p class="font-mono text-sm text-gray-500 mb-2">
-                {micro.data.publishDate.toLocaleDateString('zh-CN')} {micro.data.publishDate.toLocaleTimeString('zh-CN', {hour: '2-digit', minute: '2-digit'})}
-              </p>
-              <p class="text-gray-700">{micro.data.content}</p>
-              {micro.data.tags && micro.data.tags.length > 0 && (
-                <div class="mt-3 flex gap-2">
-                  {micro.data.tags.map((tag) => (
-                    <span class="border border-gray-400 px-2 py-0.5 text-xs font-mono">#{tag}</span>
-                  ))}
-                </div>
-              )}
-            </div>
+    {/* 博客内容 */}
+    {blogs.length > 0 ? (
+      <div>
+        {/* 所有博客（隐藏的） */}
+        <div id="all-blogs" style="display: none;">
+          {blogs.map((blog, index) => (
+            <div class="pb-8 border-b-2 border-gray-300 blog-item" data-index={index} data-tags={JSON.stringify(blog.data.tags)} data-title={blog.data.title} data-date={blog.data.publishDate.toLocaleDateString('zh-CN')} data-description={blog.data.description} data-href={`/content/blog/${blog.id}`}></div>
           ))}
         </div>
-      ) : (
-        <p class="text-gray-500 font-mono">暂无碎碎念...</p>
-      )}
 
-      {micros.length > 0 && (
-        <div class="mt-6">
-          <BrutalButton href="/content/micro" variant="secondary" size="md">
-            查看全部碎碎念 →
-          </BrutalButton>
-        </div>
-      )}
-    </div>
+        {/* 当前页显示的博客 */}
+        <div id="blog-items" class="space-y-8"></div>
 
-    <!-- 视频内容 -->
-    <div class="mb-10">
-      {videos.length > 0 ? (
-        <div class="space-y-6">
-          {videos.slice(0, 3).map((video) => (
-            <div>
-              <h3 class="font-mono text-lg font-bold mb-2">{video.data.title}</h3>
-              <p class="text-gray-600 mb-3">{video.data.description}</p>
-              <span class="border border-gray-400 px-2 py-1 text-xs font-mono">{video.data.platform}</span>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p class="text-gray-500 font-mono">暂无视频内容...</p>
-      )}
-
-      {videos.length > 0 && (
-        <div class="mt-6">
-          <BrutalButton href="/content/video" variant="secondary" size="md">
-            查看全部视频 →
-          </BrutalButton>
-        </div>
-      )}
-    </div>
+        {/* 分页按钮 */}
+        {blogs.length > 2 && (
+          <div class="mt-8 flex justify-center gap-4">
+            <button id="prev-btn" class="brutal-btn px-6 py-2 bg-white font-mono font-bold disabled:opacity-50" disabled>
+              ← 上一页
+            </button>
+            <span id="page-info" class="font-mono text-gray-600 self-center">1 / {Math.ceil(blogs.length / 2)}</span>
+            <button id="next-btn" class="brutal-btn px-6 py-2 bg-white font-mono font-bold">
+              下一页 →
+            </button>
+          </div>
+        )}
+      </div>
+    ) : (
+      <p class="text-gray-500 font-mono">暂无博客内容，敬请期待...</p>
+    )}
   </div>
 </section>
 
@@ -120,3 +57,71 @@ const videos = await getCollection('video');
     border-width: 2px;
   }
 </style>
+
+<script is:inline>
+  // 首页内容分页
+  const itemsPerPage = 2;
+  let currentPage = 1;
+  
+  // 从隐藏元素中获取博客数据
+  const blogItems = Array.from(document.querySelectorAll('.blog-item')).map(item => ({
+    tags: JSON.parse(item.dataset.tags),
+    title: item.dataset.title,
+    date: item.dataset.date,
+    description: item.dataset.description,
+    href: item.dataset.href
+  }));
+  
+  const totalPages = Math.ceil(blogItems.length / itemsPerPage);
+
+  const blogItemsContainer = document.getElementById('blog-items');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const pageInfo = document.getElementById('page-info');
+
+  function renderBlogs() {
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const pageBlogs = blogItems.slice(start, end);
+
+    blogItemsContainer.innerHTML = pageBlogs.map((blog) => `
+      <div class="pb-8 border-b-2 border-gray-300">
+        <div class="flex gap-2 mb-3">
+          ${blog.tags.map(tag => `<span class="border-2 border-gray-900 bg-blue-600 text-white px-3 py-1 font-mono text-xs">#${tag}</span>`).join('')}
+        </div>
+        <h3 class="font-mono text-xl font-bold mb-2">${blog.title}</h3>
+        <p class="font-mono text-sm text-gray-500 mb-3">${blog.date} · 阅读时间 8 分钟</p>
+        <p class="text-gray-700 mb-4">${blog.description}</p>
+        <a href="${blog.href}" class="font-mono text-blue-600 font-bold">阅读全文 →</a>
+      </div>
+    `).join('');
+
+    // 更新分页按钮状态
+    if (prevBtn) prevBtn.disabled = currentPage === 1;
+    if (nextBtn) nextBtn.disabled = currentPage === totalPages;
+    if (pageInfo) pageInfo.textContent = `${currentPage} / ${totalPages}`;
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderBlogs();
+      }
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderBlogs();
+      }
+    });
+  }
+
+  // 初始渲染
+  if (blogItems.length > 0) {
+    renderBlogs();
+  }
+</script>

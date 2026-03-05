@@ -50,6 +50,32 @@ const videos = await getCollection('video');
         color: white;
         padding: 2px 8px;
       }
+      .tag-secondary {
+        border: 2px solid #1A1A1A;
+        background: white;
+        color: #1A1A1A;
+        padding: 2px 8px;
+      }
+      .tab-btn {
+        border: 2px solid #1A1A1A;
+        background: white;
+        color: #1A1A1A;
+        padding: 8px 16px;
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.1s ease;
+      }
+      .tab-btn.active {
+        background: #0066FF;
+        color: white;
+      }
+      .tab-content {
+        display: none;
+      }
+      .tab-content.active {
+        display: block;
+      }
     </style>
   </head>
   <body class="bg-gray-100 text-gray-900">
@@ -67,17 +93,15 @@ const videos = await getCollection('video');
     <section class="px-6 py-20">
       <div class="max-w-4xl mx-auto">
 
-        {/* 博客 */}
-        <div class="mb-16">
-          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 gap-4">
-            <h2 class="font-mono text-3xl font-bold">📝 博客</h2>
-            {blogs.length > 0 && (
-              <BrutalButton href="/content/blog" variant="secondary" size="sm">
-                查看全部 →
-              </BrutalButton>
-            )}
-          </div>
+        {/* 标签页切换 */}
+        <div class="flex gap-4 mb-10">
+          <button class="tab-btn active" data-tab="blog">📝 博客</button>
+          <button class="tab-btn" data-tab="micro">💬 碎碎念</button>
+          <button class="tab-btn" data-tab="video">🎬 视频</button>
+        </div>
 
+        {/* 博客内容 */}
+        <div id="tab-blog" class="tab-content active">
           {blogs.length > 0 ? (
             <div class="space-y-8">
               {blogs.slice(0, 3).map((blog) => (
@@ -101,19 +125,18 @@ const videos = await getCollection('video');
               <p class="text-gray-500 font-mono text-center py-8">暂无博客内容，敬请期待...</p>
             </BrutalCard>
           )}
+
+          {blogs.length > 0 && (
+            <div class="mt-10">
+              <BrutalButton href="/content/blog" variant="secondary" size="md">
+                查看全部博客 →
+              </BrutalButton>
+            </div>
+          )}
         </div>
 
-        {/* 碎碎念 */}
-        <div class="mb-16">
-          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 gap-4">
-            <h2 class="font-mono text-3xl font-bold">💬 碎碎念</h2>
-            {micros.length > 0 && (
-              <BrutalButton href="/content/micro" variant="secondary" size="sm">
-                查看全部 →
-              </BrutalButton>
-            )}
-          </div>
-
+        {/* 碎碎念内容 */}
+        <div id="tab-micro" class="tab-content">
           {micros.length > 0 ? (
             <div class="space-y-6">
               {micros.slice(0, 5).map((micro) => (
@@ -137,19 +160,18 @@ const videos = await getCollection('video');
               <p class="text-gray-500 font-mono text-center py-8">暂无碎碎念...</p>
             </BrutalCard>
           )}
+
+          {micros.length > 0 && (
+            <div class="mt-10">
+              <BrutalButton href="/content/micro" variant="secondary" size="md">
+                查看全部碎碎念 →
+              </BrutalButton>
+            </div>
+          )}
         </div>
 
-        {/* 视频 */}
-        <div class="mb-16">
-          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 gap-4">
-            <h2 class="font-mono text-3xl font-bold">🎬 视频</h2>
-            {videos.length > 0 && (
-              <BrutalButton href="/content/video" variant="secondary" size="sm">
-                查看全部 →
-              </BrutalButton>
-            )}
-          </div>
-
+        {/* 视频内容 */}
+        <div id="tab-video" class="tab-content">
           {videos.length > 0 ? (
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               {videos.slice(0, 4).map((video) => (
@@ -168,10 +190,18 @@ const videos = await getCollection('video');
               <p class="text-gray-500 font-mono text-center py-8">暂无视频内容...</p>
             </BrutalCard>
           )}
+
+          {videos.length > 0 && (
+            <div class="mt-10">
+              <BrutalButton href="/content/video" variant="secondary" size="md">
+                查看全部视频 →
+              </BrutalButton>
+            </div>
+          )}
         </div>
 
         {/* 自媒体账号 */}
-        <div>
+        <div class="mt-20">
           <h2 class="font-mono text-3xl font-bold mb-10">🔗 其他自媒体</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <BrutalCard class="text-center py-8">
@@ -217,6 +247,26 @@ const videos = await getCollection('video');
       <p class="font-mono">hione.one © 2026</p>
       <p class="text-gray-400 text-sm mt-2">Made with vibe coding 🦞</p>
     </footer>
+
+    <script>
+      // 标签页切换
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tabId = btn.getAttribute('data-tab');
+          
+          // 移除所有激活状态
+          tabBtns.forEach(b => b.classList.remove('active'));
+          tabContents.forEach(c => c.classList.remove('active'));
+          
+          // 激活当前标签
+          btn.classList.add('active');
+          document.getElementById(`tab-${tabId}`).classList.add('active');
+        });
+      });
+    </script>
 
   </body>
 </html>
