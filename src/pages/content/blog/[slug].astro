@@ -1,0 +1,165 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Layout from '../../../layouts/Layout.astro';
+import BrutalButton from '../../../components/ui/BrutalButton.astro';
+import BrutalCard from '../../../components/ui/BrutalCard.astro';
+
+export async function getStaticPaths() {
+  const blogs = await getCollection('blog');
+  return blogs.map((blog) => ({
+    params: { slug: blog.id.replace('.md', '') },
+  }));
+}
+
+const { slug } = Astro.params;
+const blogs = await getCollection('blog');
+const blog = blogs.find((b) => b.id.replace('.md', '') === slug);
+const { Content } = await blog.render();
+
+if (!blog) {
+  return Astro.redirect('/content');
+}
+
+// 获取上一篇和下一篇
+const sortedBlogs = [...blogs].sort((a, b) => new Date(b.data.publishDate) - new Date(a.data.publishDate));
+const currentIndex = sortedBlogs.findIndex(b => b.id === slug);
+const prevBlog = currentIndex < sortedBlogs.length - 1 ? sortedBlogs[currentIndex + 1] : null;
+const nextBlog = currentIndex > 0 ? sortedBlogs[currentIndex - 1] : null;
+---
+
+<Layout title={`${blog.data.title} - hione.one`}>
+  {/* Hero 区域 */}
+  <section class="px-6 py-20 bg-white">
+    <div class="max-w-3xl mx-auto">
+      <a href="/content" class="font-mono text-blue-600 font-bold mb-6 inline-block">← 返回内容专区</a>
+      <div class="flex flex-wrap gap-2 mb-6">
+        {blog.data.tags.map((tag) => (
+          <span class="border-2 border-gray-900 bg-blue-600 text-white px-3 py-1 font-mono text-xs">#{tag}</span>
+        ))}
+      </div>
+      <h1 class="font-mono text-4xl md:text-5xl font-bold mb-4">{blog.data.title}</h1>
+      <p class="font-mono text-sm text-gray-500 mb-6">
+        {blog.data.publishDate.toLocaleDateString('zh-CN')} · 阅读时间 8 分钟
+        {blog.data.updatedDate && ` · 更新于 ${blog.data.updatedDate.toLocaleDateString('zh-CN')}`}
+      </p>
+      <p class="text-xl text-gray-600 mb-8 leading-relaxed">{blog.data.description}</p>
+    </div>
+  </section>
+
+  {/* 博客内容 */}
+  <section class="px-6 py-16 bg-gray-100">
+    <div class="max-w-3xl mx-auto">
+      <BrutalCard class="p-6 md:p-10">
+        <div class="prose prose-lg max-w-none">
+          <Content />
+        </div>
+      </BrutalCard>
+    </div>
+  </section>
+
+  {/* 上下篇导航 */}
+  {(prevBlog || nextBlog) && (
+    <section class="px-6 py-16 bg-white">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="font-mono text-2xl font-bold mb-8 text-center">继续阅读</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* 上一篇 */}
+          {prevBlog && (
+            <a href={`/content/blog/${prevBlog.id.replace('.md', '')}`} class="block">
+              <BrutalCard class="h-full">
+                <p class="font-mono text-sm text-gray-500 mb-2">← 上一篇</p>
+                <h3 class="font-mono text-xl font-bold mb-2">{prevBlog.data.title}</h3>
+                <p class="text-gray-600 text-sm">{prevBlog.data.description}</p>
+              </BrutalCard>
+            </a>
+          )}
+          {/* 下一篇 */}
+          {nextBlog && (
+            <a href={`/content/blog/${nextBlog.id.replace('.md', '')}`} class="block">
+              <BrutalCard class="h-full">
+                <p class="font-mono text-sm text-gray-500 mb-2 text-right">下一篇 →</p>
+                <h3 class="font-mono text-xl font-bold mb-2">{nextBlog.data.title}</h3>
+                <p class="text-gray-600 text-sm">{nextBlog.data.description}</p>
+              </BrutalCard>
+            </a>
+          )}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {/* Footer */}
+  <footer class="px-6 py-10 bg-gray-900 text-white text-center">
+    <p class="font-mono">hione.one © 2026</p>
+    <p class="text-gray-400 text-sm mt-2">Made with vibe coding 🦞</p>
+  </footer>
+</Layout>
+
+<style is:global>
+  .border-2 {
+    border-width: 2px;
+  }
+  /* 博客内容样式优化 */
+  .prose h2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid #1A1A1A;
+  }
+  .prose h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: bold;
+    font-size: 1.25rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .prose p {
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+  }
+  .prose code {
+    font-family: 'JetBrains Mono', monospace;
+    background: #f3f4f6;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+  }
+  .prose pre {
+    font-family: 'JetBrains Mono', monospace;
+    background: #1A1A1A;
+    color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+  .prose pre code {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+  }
+  .prose blockquote {
+    border-left: 4px solid #0066FF;
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: #4B5563;
+  }
+  .prose ul, .prose ol {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+  }
+  .prose li {
+    margin: 0.5rem 0;
+  }
+  .prose a {
+    color: #0066FF;
+    font-weight: bold;
+  }
+  .prose a:hover {
+    text-decoration: underline;
+  }
+</style>

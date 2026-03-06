@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
 import HeroSection from '../components/hero/HeroSection.astro';
 import ProjectCard from '../components/projects/ProjectCard.astro';
 import Tag from '../components/ui/Tag.astro';
@@ -12,66 +13,112 @@ import '../styles/global.css';
 const projects = await getCollection('projects');
 ---
 
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Eric Gao - hione.one (v2)</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-      body {
-        font-family: 'Inter', sans-serif;
-      }
-      .font-mono {
-        font-family: 'JetBrains Mono', monospace;
-      }
-    </style>
-  </head>
-  <body class="bg-gray-100 text-gray-900">
-    <HeroSection />
+<Layout title="Eric Gao - hione.one">
+  <HeroSection />
 
-    <!-- Projects Section -->
-    <section id="projects" class="px-6 py-20 bg-white">
-      <div class="max-w-4xl mx-auto">
-        <h2 class="font-mono text-3xl font-bold mb-2">我的项目</h2>
-        <div class="flex gap-4 mb-10">
-          <Tag active>进行中</Tag>
-          <Tag>已完成</Tag>
-        </div>
-
-        <div class="space-y-8">
-          {projects.map((project) => (
-            <ProjectCard
-              title={project.data.title}
-              description={project.data.description}
-              status={project.data.status}
-              techStack={project.data.techStack}
-              image={project.data.image}
-              href={`/project/${project.id}`}
-            />
-          ))}
-        </div>
+  <!-- Projects Section -->
+  <section id="projects" class="px-6 py-20 bg-white">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="font-mono text-3xl font-bold mb-2">我的项目</h2>
+      <div class="flex gap-4 mb-10">
+        <button class="tab-btn active" data-tab="in-progress">进行中</button>
+        <button class="tab-btn" data-tab="completed">已完成</button>
       </div>
-    </section>
 
-    <!-- Services Section -->
-    <ServicesSection />
+      <!-- 进行中项目 -->
+      <div id="tab-in-progress" class="tab-content active space-y-8">
+        {projects.filter(p => p.data.status === '进行中').map((project) => (
+          <ProjectCard
+            title={project.data.title}
+            description={project.data.description}
+            status={project.data.status}
+            techStack={project.data.techStack}
+            image={project.data.image}
+            href={`/project/${project.id}`}
+          />
+        ))}
+        {projects.filter(p => p.data.status === '进行中').length === 0 && (
+          <p class="text-gray-500 font-mono text-center py-8">暂无进行中的项目...</p>
+        )}
+      </div>
 
-    <!-- Uses Section -->
-    <UsesSection />
+      <!-- 已完成项目 -->
+      <div id="tab-completed" class="tab-content space-y-8">
+        {projects.filter(p => p.data.status === '已完成').map((project) => (
+          <ProjectCard
+            title={project.data.title}
+            description={project.data.description}
+            status={project.data.status}
+            techStack={project.data.techStack}
+            image={project.data.image}
+            href={`/project/${project.id}`}
+          />
+        ))}
+        {projects.filter(p => p.data.status === '已完成').length === 0 && (
+          <p class="text-gray-500 font-mono text-center py-8">暂无已完成的项目...</p>
+        )}
+      </div>
+    </div>
+  </section>
 
-    <!-- Content Section -->
-    <ContentSection />
+  <!-- Content Section -->
+  <ContentSection />
 
-    <!-- Contact Section -->
-    <ContactSection />
+  <!-- Services Section -->
+  <ServicesSection />
 
-    <!-- Footer -->
-    <footer class="px-6 py-10 bg-gray-900 text-white text-center">
-      <p class="font-mono">hione.one © 2026</p>
-      <p class="text-gray-400 text-sm mt-2">Made with vibe coding 🦞</p>
-    </footer>
-  </body>
-</html>
+  <!-- Uses Section -->
+  <UsesSection />
+
+  <!-- Contact Section -->
+  <ContactSection />
+
+  <!-- Footer -->
+  <footer class="px-6 py-10 bg-gray-900 text-white text-center">
+    <p class="font-mono">hione.one © 2026</p>
+    <p class="text-gray-400 text-sm mt-2">Made with vibe coding 🦞</p>
+  </footer>
+
+  <script is:inline>
+    // 项目标签页切换
+    const projectTabBtns = document.querySelectorAll('#projects .tab-btn');
+    const projectTabContents = document.querySelectorAll('#projects .tab-content');
+
+    projectTabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tabId = btn.getAttribute('data-tab');
+        
+        // 移除所有激活状态
+        projectTabBtns.forEach(b => b.classList.remove('active'));
+        projectTabContents.forEach(c => c.classList.remove('active'));
+        
+        // 激活当前标签
+        btn.classList.add('active');
+        document.getElementById(`tab-${tabId}`).classList.add('active');
+      });
+    });
+  </script>
+</Layout>
+
+<style is:global>
+  .tab-btn {
+    border: 2px solid #1A1A1A;
+    background: white;
+    color: #1A1A1A;
+    padding: 8px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.1s ease;
+  }
+  .tab-btn.active {
+    background: #0066FF;
+    color: white;
+  }
+  .tab-content {
+    display: none;
+  }
+  .tab-content.active {
+    display: block;
+  }
+</style>
