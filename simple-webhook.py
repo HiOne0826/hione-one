@@ -13,7 +13,7 @@ class WebhookHandler(BaseHTTPRequestHandler):
         os.chdir("/root/hione-one")
         subprocess.run(["git", "fetch", "origin"], check=True)
         subprocess.run(["git", "checkout", "origin/main", "--", "dist/"], check=True)
-        subprocess.run(["cp", "-r", "dist/.", "/var/www/hione.one/"], check=True)
+        subprocess.run(["cp", "-r", "dist/.", "/www/wwwroot/hione.one/"], check=True)
         print(f"[{time.ctime()}] Deploy complete!")
 
 def main():

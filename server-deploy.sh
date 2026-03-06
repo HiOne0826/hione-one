@@ -5,7 +5,7 @@ set -e
 
 # 项目目录
 PROJECT_DIR="/root/hione-one"
-DEPLOY_DIR="/var/www/hione.one"
+DEPLOY_DIR="/www/wwwroot/hione.one"
 
 cd $PROJECT_DIR
 
