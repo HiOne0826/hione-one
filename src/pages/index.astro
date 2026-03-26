@@ -34,7 +34,7 @@ const projects = await getCollection('projects');
             status={project.data.status}
             techStack={project.data.techStack}
             image={project.data.image}
-            href={`/project/${project.id}`}
+            href={project.data.demoUrl || `/project/${project.id}`}
           />
         ))}
         {projects.filter(p => p.data.status === '进行中').length === 0 && (
@@ -51,7 +51,7 @@ const projects = await getCollection('projects');
             status={project.data.status}
             techStack={project.data.techStack}
             image={project.data.image}
-            href={`/project/${project.id}`}
+            href={project.data.demoUrl || `/project/${project.id}`}
           />
         ))}
         {projects.filter(p => p.data.status === '已完成').length === 0 && (

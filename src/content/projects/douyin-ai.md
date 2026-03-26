@@ -1,17 +1,16 @@
 ---
-title: 抖音数据 AI 分析
-description: MediaCrawler + FastAPI + OpenClaw AI 分析，输入抖音链接，输出 8 个维度的 AI 分析
-status: 进行中
+title: 抖音/小红书 AI 对标分析
+description: 专为街拍/时尚博主打造的对标分析神器，输入抖音/小红书链接即可获取帖子内容并进行 AI 分析，一键拆解爆款内容的底层逻辑
+status: 已完成
 techStack:
+  - Next.js
   - FastAPI
-  - 火山引擎
-  - OpenClaw
-  - MediaCrawler
+  - 豆包大模型
+  - TikHub API
 image: /images/projects/douyin-ai.png
-demoUrl: https://demo.hione.one
-repoUrl: https://github.com/ericgao/douyin-ai
+demoUrl: https://hione.one/douyin-ai/
 publishDate: 2026-03-01
-updatedDate: 2026-03-05
+updatedDate: 2026-03-26
 ---
 
 ## 项目背景
