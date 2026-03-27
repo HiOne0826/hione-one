@@ -1,0 +1,109 @@
+<!DOCTYPE html><html lang="zh-CN" data-astro-cid-iejuj6pp> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>微信公众号订阅搜索 - hione.one</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"><script type="module" src="/_astro/_id_.astro_astro_type_script_index_0_lang.CxO_JRN6.js"></script><style>body{font-family:Inter,sans-serif}.font-mono[data-astro-cid-iejuj6pp]{font-family:JetBrains Mono,monospace}.brutal-border[data-astro-cid-iejuj6pp]{border:3px solid #1A1A1A}.brutal-shadow[data-astro-cid-iejuj6pp]{box-shadow:4px 4px #1a1a1a}.brutal-btn[data-astro-cid-iejuj6pp]{border:3px solid #1A1A1A;box-shadow:4px 4px #1a1a1a;transition:all .1s ease}.brutal-btn[data-astro-cid-iejuj6pp]:hover{transform:translate(-2px,-2px);box-shadow:6px 6px #1a1a1a}.brutal-btn[data-astro-cid-iejuj6pp]:active{transform:translate(2px,2px);box-shadow:2px 2px #1a1a1a}.tag[data-astro-cid-iejuj6pp]{border:2px solid #1A1A1A;background:#06f;color:#fff;padding:2px 8px}.tag-secondary[data-astro-cid-iejuj6pp]{border:2px solid #1A1A1A;background:#fff;color:#1a1a1a;padding:2px 8px}
+</style></head> <body class="bg-gray-100 text-gray-900" data-astro-cid-iejuj6pp>  <section class="px-6 py-20 bg-white" data-astro-cid-iejuj6pp> <div class="max-w-3xl mx-auto" data-astro-cid-iejuj6pp> <a href="/" class="font-mono text-blue-600 font-bold mb-6 inline-block hover:underline" data-astro-cid-iejuj6pp>← 返回首页</a> <div class="flex flex-wrap gap-2 mb-6" data-astro-cid-iejuj6pp> <span class="tag-secondary font-mono text-sm" data-astro-cid-iejuj6pp> 已完成 </span> <span class="border border-gray-400 px-2 py-1 text-xs font-mono" data-astro-cid-iejuj6pp>Node.js</span><span class="border border-gray-400 px-2 py-1 text-xs font-mono" data-astro-cid-iejuj6pp>TypeScript</span><span class="border border-gray-400 px-2 py-1 text-xs font-mono" data-astro-cid-iejuj6pp>Express</span><span class="border border-gray-400 px-2 py-1 text-xs font-mono" data-astro-cid-iejuj6pp>Docker</span><span class="border border-gray-400 px-2 py-1 text-xs font-mono" data-astro-cid-iejuj6pp>OpenAI</span><span class="border border-gray-400 px-2 py-1 text-xs font-mono" data-astro-cid-iejuj6pp>WeWe RSS</span> </div> <h1 class="font-mono text-4xl md:text-5xl font-bold mb-4" data-astro-cid-iejuj6pp>微信公众号订阅搜索</h1> <p class="text-xl text-gray-600 mb-8 leading-relaxed" data-astro-cid-iejuj6pp>自助搭建微信公众号 RSS 订阅服务，支持全文搜索、时间范围筛选和 AI 主题相关性分析</p> <div class="flex flex-col sm:flex-row gap-4" data-astro-cid-iejuj6pp> <a href="https://rss.hione.one/" class="font-mono font-bold inline-block text-center transition-all duration-100 px-6 py-3 bg-blue-600 text-white border-[3px] border-gray-900 hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[6px_6px_0px_#1A1A1A] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_#1A1A1A]">
+查看演示 →
+</a> <a href="https://github.com/your-username/wechat-rss-subscriber" class="font-mono font-bold inline-block text-center transition-all duration-100 px-6 py-3 bg-white text-gray-900 border-[3px] border-gray-900 hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[6px_6px_0px_#1A1A1A] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_#1A1A1A]">
+查看代码 →
+</a> </div> </div> </section>  <section class="px-6 py-16" data-astro-cid-iejuj6pp> <div class="max-w-3xl mx-auto" data-astro-cid-iejuj6pp> <div class="border-[3px] border-gray-900 shadow-[4px_4px_0px_#1A1A1A] bg-gray-50 p-6 p-8">  <div class="prose prose-lg max-w-none" data-astro-cid-iejuj6pp>## 项目背景
+
+想要持续关注几个微信公众号的文章，但微信订阅号信息流混乱，很难找到历史文章，也不方便搜索特定主题。这个项目帮你：
+
+- ✅ 自助搭建私有微信公众号 RSS 订阅服务
+- ✅ 定期自动拉取最新文章保存到本地
+- ✅ 支持关键词搜索 + 发布时间范围筛选
+- ✅ 使用 AI 判断文章是否与特定主题相关
+- ✅ 打包成 Claude Code Skill 供其他 Agent 使用
+- ✅ 完整 Docker Compose 一键部署
+
+## 功能特性
+
+### 核心功能
+- **多公众号订阅**：通过 WeWe RSS 获取公众号 RSS 源，定时自动拉取
+- **全文搜索**：本地缓存所有文章，支持关键词快速搜索
+- **时间范围筛选**：可指定起止日期，只搜索某段时间内的文章
+- **AI 主题分析**：输入文章链接和主题问题，AI 会判断文章是否讨论该主题并给出理由
+- **Web 界面**：响应式网页界面，手机电脑都能用
+- **REST API**：完整 API 可供二次开发
+- **Claude Code Skill**：可在 Claude Code 中直接调用功能
+
+### 技术架构
+- **WeWe RSS**：负责抓取微信公众号文章生成 RSS
+- **Node.js + TypeScript**：后端服务和 CLI 工具
+- **Express**：Web 服务器和 API
+- **Docker Compose**：一键编排所有服务
+- **OpenAI API**：可选，用于 AI 内容分析
+- **JSON 文件存储**：无需数据库，简单可靠
+
+## 使用说明
+
+### 一键部署（自己搭建）
+
+```bash
+# 1. 克隆项目
+git clone https://github.com/your-username/wechat-rss-subscriber.git
+cd wechat-rss-subscriber
+
+# 2. 配置环境变量
+cp .env.example .env
+# 编辑 .env 添加 OPENAI_API_KEY（可选，AI 功能需要）
+
+# 3. 修改 docker-compose.yml 填入你的微信 Cookie
+# WECHAT_OPENID_COOKIE 需要从微信网页版获取
+
+# 4. 启动服务
+docker-compose up -d
+
+# 5. 访问 http://your-server:3000 即可使用
+```
+
+### 添加订阅
+
+1. 在 WeWe RSS 中添加你想要订阅的公众号
+2. 获取 RSS 链接
+3. 使用 CLI 添加订阅：`node dist/index.js add <rss-url> "公众号名称"`
+
+### 使用搜索
+
+- **网页搜索**：直接在首页输入关键词，可选填写起止日期
+- **CLI 搜索**：`node dist/index.js search "关键词" --from 2026-01-01 --to 2026-03-31`
+- **AI 分析**：在搜索结果点击「AI 分析」，输入你的问题，例如：「这篇文章是否讨论社保基数调整？」
+
+### Claude Code Skill 安装
+
+在 Claude Code 中安装：
+```
+npx skills add github-username/wechat-rss-subscriber@skill
+```
+
+安装后即可在 Claude Code 中使用：
+- `addSubscription` - 添加订阅
+- `fetchArticles` - 拉取最新文章
+- `searchArticles` - 搜索文章（支持时间范围）
+- `analyzeTopicRelevance` - AI 分析主题相关性
+- `listSubscriptions` - 列出所有订阅
+
+## 在线试用
+
+我已经搭建了公共服务，可以直接试用：
+
+👉 **[立即使用](https://rss.hione.one/)**
+
+## 技能下载
+
+如果你想在自己的 Claude Code 中使用这个 Skill，可以在这里下载：
+
+👉 **[Skill JSON](https://raw.githubusercontent.com/your-username/wechat-rss-subscriber/main/skill.json)**
+
+## 项目亮点
+
+- **完全私有**：所有数据保存在自己服务器，不依赖第三方
+- **零成本**：使用开源工具，只需要一个 VPS 即可运行
+- **可扩展**：REST API 方便二次开发，可以集成到其他工作流
+- **AI 增强**：利用大模型帮你快速筛选感兴趣的文章，节省阅读时间
+
+## 后续优化方向
+
+- 添加全文搜索引擎（Elasticsearch/Lunr.js）
+- 支持邮件推送新文章通知
+- 添加标签分类功能
+- 支持导出所有文章为 Markdown 归档</div> <p class="text-gray-600 text-sm font-mono mt-8" data-astro-cid-iejuj6pp>
+发布于 2026/3/27  · 更新于 2026/3/27 </p>  </div> </div> </section>  <footer class="px-6 py-10 bg-gray-900 text-white text-center" data-astro-cid-iejuj6pp> <p class="font-mono" data-astro-cid-iejuj6pp>hione.one © 2026</p> <p class="text-gray-400 text-sm mt-2" data-astro-cid-iejuj6pp>Made with vibe coding 🦞</p> </footer> </body></html>
