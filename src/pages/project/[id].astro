@@ -103,15 +103,11 @@ if (!project) {
     <section class="px-6 py-16">
       <div class="max-w-3xl mx-auto">
         <BrutalCard class="p-8">
-          <div class="prose prose-lg max-w-none">
-            <p class="text-gray-700 leading-relaxed mb-6">
-              项目详情内容正在整理中...
-            </p>
-            <p class="text-gray-600 text-sm font-mono">
+          <div class="prose prose-lg max-w-none" set:html={project.body} />
+          <p class="text-gray-600 text-sm font-mono mt-8">
               发布于 {project.data.publishDate.toLocaleDateString('zh-CN')}
               {project.data.updatedDate && ` · 更新于 ${project.data.updatedDate.toLocaleDateString('zh-CN')}`}
-            </p>
-          </div>
+          </p>
         </BrutalCard>
       </div>
     </section>
