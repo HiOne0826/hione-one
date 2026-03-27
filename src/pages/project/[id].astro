@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
 import BrutalButton from '../../components/ui/BrutalButton.astro';
 import BrutalCard from '../../components/ui/BrutalCard.astro';
 
@@ -19,104 +20,52 @@ if (!project) {
 }
 ---
 
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{project.data.title} - hione.one</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      body {
-        font-family: 'Inter', sans-serif;
-      }
-      .font-mono {
-        font-family: 'JetBrains Mono', monospace;
-      }
-      .brutal-border {
-        border: 3px solid #1A1A1A;
-      }
-      .brutal-shadow {
-        box-shadow: 4px 4px 0px #1A1A1A;
-      }
-      .brutal-btn {
-        border: 3px solid #1A1A1A;
-        box-shadow: 4px 4px 0px #1A1A1A;
-        transition: all 0.1s ease;
-      }
-      .brutal-btn:hover {
-        transform: translate(-2px, -2px);
-        box-shadow: 6px 6px 0px #1A1A1A;
-      }
-      .brutal-btn:active {
-        transform: translate(2px, 2px);
-        box-shadow: 2px 2px 0px #1A1A1A;
-      }
-      .tag {
-        border: 2px solid #1A1A1A;
-        background: #0066FF;
-        color: white;
-        padding: 2px 8px;
-      }
-      .tag-secondary {
-        border: 2px solid #1A1A1A;
-        background: white;
-        color: #1A1A1A;
-        padding: 2px 8px;
-      }
-    </style>
-  </head>
-  <body class="bg-gray-100 text-gray-900">
-
-    {/* Hero 区域 */}
-    <section class="px-6 py-20 bg-white">
-      <div class="max-w-3xl mx-auto">
-        <a href="/" class="font-mono text-blue-600 font-bold mb-6 inline-block hover:underline">← 返回首页</a>
-        <div class="flex flex-wrap gap-2 mb-6">
-          <span class={`${project.data.status === '进行中' ? 'tag' : 'tag-secondary'} font-mono text-sm`}>
-            {project.data.status}
-          </span>
-          {project.data.techStack.map((tech) => (
-            <span class="border border-gray-400 px-2 py-1 text-xs font-mono">{tech}</span>
-          ))}
-        </div>
-        <h1 class="font-mono text-4xl md:text-5xl font-bold mb-4">{project.data.title}</h1>
-        <p class="text-xl text-gray-600 mb-8 leading-relaxed">{project.data.description}</p>
-        <div class="flex flex-col sm:flex-row gap-4">
-          {project.data.demoUrl && (
-            <BrutalButton href={project.data.demoUrl} variant="primary" size="md">
-              查看演示 →
-            </BrutalButton>
-          )}
-          {project.data.repoUrl && (
-            <BrutalButton href={project.data.repoUrl} variant="secondary" size="md">
-              查看代码 →
-            </BrutalButton>
-          )}
-        </div>
+<Layout title={`${project.data.title} - hione.one`}>
+  {/* Hero 区域 */}
+  <section class="px-6 py-20 bg-white">
+    <div class="max-w-3xl mx-auto">
+      <a href="/" class="font-mono text-blue-600 font-bold mb-6 inline-block hover:underline">← 返回首页</a>
+      <div class="flex flex-wrap gap-2 mb-6">
+        <span class={`${project.data.status === '进行中' ? 'tag' : 'tag-secondary'} font-mono text-sm`}>
+          {project.data.status}
+        </span>
+        {project.data.techStack.map((tech) => (
+          <span class="border border-gray-400 px-2 py-1 text-xs font-mono">{tech}</span>
+        ))}
       </div>
-    </section>
-
-    {/* 项目内容 */}
-    <section class="px-6 py-16">
-      <div class="max-w-3xl mx-auto">
-        <BrutalCard class="p-8">
-          <div class="prose prose-lg max-w-none" set:html={project.body} />
-          <p class="text-gray-600 text-sm font-mono mt-8">
-              发布于 {project.data.publishDate.toLocaleDateString('zh-CN')}
-              {project.data.updatedDate && ` · 更新于 ${project.data.updatedDate.toLocaleDateString('zh-CN')}`}
-          </p>
-        </BrutalCard>
+      <h1 class="font-mono text-4xl md:text-5xl font-bold mb-4">{project.data.title}</h1>
+      <p class="text-xl text-gray-600 mb-8 leading-relaxed">{project.data.description}</p>
+      <div class="flex flex-col sm:flex-row gap-4">
+        {project.data.demoUrl && (
+          <BrutalButton href={project.data.demoUrl} variant="primary" size="md">
+            查看演示 →
+          </BrutalButton>
+        )}
+        {project.data.repoUrl && (
+          <BrutalButton href={project.data.repoUrl} variant="secondary" size="md">
+            查看代码 →
+          </BrutalButton>
+        )}
       </div>
-    </section>
+    </div>
+  </section>
 
-    {/* Footer */}
-    <footer class="px-6 py-10 bg-gray-900 text-white text-center">
-      <p class="font-mono">hione.one © 2026</p>
-      <p class="text-gray-400 text-sm mt-2">Made with vibe coding 🦞</p>
-    </footer>
+  {/* 项目内容 */}
+  <section class="px-6 py-16">
+    <div class="max-w-3xl mx-auto">
+      <BrutalCard class="p-8">
+        <div class="prose prose-lg max-w-none" set:html={project.body} />
+        <p class="text-gray-600 text-sm font-mono mt-8">
+            发布于 {project.data.publishDate.toLocaleDateString('zh-CN')}
+            {project.data.updatedDate && ` · 更新于 ${project.data.updatedDate.toLocaleDateString('zh-CN')}`}
+        </p>
+      </BrutalCard>
+    </div>
+  </section>
 
-  </body>
-</html>
+  {/* Footer */}
+  <footer class="px-6 py-10 bg-gray-900 text-white text-center">
+    <p class="font-mono">hione.one © 2026</p>
+    <p class="text-gray-400 text-sm mt-2">Made with vibe coding 🦞</p>
+  </footer>
+</Layout>
